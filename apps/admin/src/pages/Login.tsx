@@ -12,7 +12,11 @@ export default function Login() {
       const response = await api.post('/auth/login', credentials);
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // Store token in localStorage
+      if (data.data?.token) {
+        localStorage.setItem('admin_token', data.data.token);
+      }
       window.location.href = '/';
     },
     onError: (error: any) => {
