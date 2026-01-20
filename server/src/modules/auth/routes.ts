@@ -5,6 +5,7 @@ import { config } from '../../config';
 import { sendSuccess, sendError } from '../../utils/response';
 import { HTTP_STATUS, JWT_COOKIE_NAME, ADMIN_EMAIL } from '@shared/constants';
 import { UserRole } from '@shared/types';
+import { authenticate, AuthRequest } from '../../middlewares/auth';
 import AuditLog from '../../models/AuditLog';
 import User from '../../models/User';
 
@@ -15,7 +16,7 @@ const generateToken = (userId: string, email: string, role: string): string => {
   return jwt.sign(
     { id: userId, email, role },
     config.jwt.secret,
-    { expiresIn: config.jwt.expiresIn as string }
+    { expiresIn: '7d' }
   );
 };
 
