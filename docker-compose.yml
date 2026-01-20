@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  # MongoDB
+  mongodb:
+    image: mongo:7
+    container_name: portfolio-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: portfolio_db
+    networks:
+      - portfolio-network
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: portfolio-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - portfolio-network
+
+  # Backend Server
+  server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.server
+    container_name: portfolio-server
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongodb:27017/portfolio_db
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=${JWT_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_CALLBACK_URL=${GOOGLE_CALLBACK_URL}
+      - ADMIN_EMAIL=nigmanand-dev@gmail.com
+      - CLIENT_URL=${CLIENT_URL}
+      - ADMIN_URL=${ADMIN_URL}
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - portfolio-network
+    volumes:
+      - ./uploads:/app/server/uploads
+
+  # Client Frontend
+  client:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.client
+    container_name: portfolio-client
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=http://localhost:5000/api/v1
+    depends_on:
+      - server
+    networks:
+      - portfolio-network
+
+  # Admin Panel
+  admin:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.admin
+    container_name: portfolio-admin
+    restart: unless-stopped
+    ports:
+      - "3001:80"
+    environment:
+      - VITE_API_URL=http://localhost:5000/api/v1
+    depends_on:
+      - server
+    networks:
+      - portfolio-network
+
+volumes:
+  mongodb_data:
+  redis_data:
+
+networks:
+  portfolio-network:
+    driver: bridge
