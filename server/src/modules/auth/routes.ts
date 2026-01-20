@@ -15,13 +15,10 @@ const router = Router();
 
 // Generate JWT token
 const generateToken = (userId: string, email: string, role: string): string => {
-  const options: SignOptions = {
-    expiresIn: config.jwt.expiresIn
-  };
   return jwt.sign(
     { id: userId, email, role },
     config.jwt.secret,
-    options
+    { expiresIn: config.jwt.expiresIn as string }
   );
 };
 
