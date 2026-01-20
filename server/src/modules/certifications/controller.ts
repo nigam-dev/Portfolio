@@ -1,11 +1,10 @@
-import { Response, NextFunction } from 'express';
-import { AuthRequest } from '../../middlewares/auth';
+import { Request, Response, NextFunction } from 'express';
 import Certification from '../../models/Certification';
 import { sendSuccess, ApiError } from '../../utils/response';
 import { HTTP_STATUS } from '../../../../shared/src/constants';
 import AuditLog from '../../models/AuditLog';
 
-export const getCertifications = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const getCertifications = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { visibility } = req.query;
     
@@ -27,7 +26,7 @@ export const getCertifications = async (req: AuthRequest, res: Response, next: N
   }
 };
 
-export const createCertification = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const createCertification = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const certification = await Certification.create({
       ...req.body,
@@ -49,7 +48,7 @@ export const createCertification = async (req: AuthRequest, res: Response, next:
   }
 };
 
-export const updateCertification = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const updateCertification = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     
@@ -77,7 +76,7 @@ export const updateCertification = async (req: AuthRequest, res: Response, next:
   }
 };
 
-export const deleteCertification = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const deleteCertification = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     

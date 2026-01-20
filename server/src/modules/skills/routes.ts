@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticate, requireAdmin } from '../../middlewares/auth';
+import { authenticate, requireAdmin, optionalAuth } from '../../middlewares/auth';
 import * as skillController from './controller';
 
 const router = Router();

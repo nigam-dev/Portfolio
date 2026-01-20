@@ -1,11 +1,10 @@
-import { Response, NextFunction } from 'express';
-import { AuthRequest } from '../../middlewares/auth';
+import { Request, Response, NextFunction } from 'express';
 import Education from '../../models/Education';
 import { sendSuccess, ApiError } from '../../utils/response';
 import { HTTP_STATUS } from '../../../../shared/src/constants';
 import AuditLog from '../../models/AuditLog';
 
-export const getEducations = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const getEducations = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { visibility } = req.query;
     
@@ -27,7 +26,7 @@ export const getEducations = async (req: AuthRequest, res: Response, next: NextF
   }
 };
 
-export const createEducation = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const createEducation = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const education = await Education.create({
       ...req.body,
@@ -49,7 +48,7 @@ export const createEducation = async (req: AuthRequest, res: Response, next: Nex
   }
 };
 
-export const updateEducation = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const updateEducation = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     
@@ -77,7 +76,7 @@ export const updateEducation = async (req: AuthRequest, res: Response, next: Nex
   }
 };
 
-export const deleteEducation = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const deleteEducation = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     

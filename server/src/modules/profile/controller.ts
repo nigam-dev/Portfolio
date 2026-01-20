@@ -1,11 +1,10 @@
-import { Response, NextFunction } from 'express';
-import { AuthRequest } from '../../middlewares/auth';
+import { Request, Response, NextFunction } from 'express';
 import Profile from '../../models/Profile';
 import { sendSuccess, ApiError } from '../../utils/response';
 import { HTTP_STATUS } from '../../../../shared/src/constants';
 import AuditLog from '../../models/AuditLog';
 
-export const getProfile = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const getProfile = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const query: any = {};
     
@@ -25,7 +24,7 @@ export const getProfile = async (req: AuthRequest, res: Response, next: NextFunc
   }
 };
 
-export const updateProfile = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const updateProfile = async (req: Request, res: Response, next: NextFunction) => {
   try {
     let profile = await Profile.findOne({ userId: req.user!.id });
     

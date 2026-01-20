@@ -1,9 +1,8 @@
-import { Response, NextFunction } from 'express';
-import { AuthRequest } from '../../middlewares/auth';
+import { Request, Response, NextFunction } from 'express';
 import AuditLog from '../../models/AuditLog';
 import { sendSuccess } from '../../utils/response';
 
-export const getAuditLogs = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const getAuditLogs = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { resource, action, limit = '50', skip = '0' } = req.query;
     

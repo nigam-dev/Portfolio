@@ -1,11 +1,10 @@
-import { Response, NextFunction } from 'express';
-import { AuthRequest } from '../../middlewares/auth';
+import { Request, Response, NextFunction } from 'express';
 import Skill from '../../models/Skill';
 import { sendSuccess, sendError, ApiError } from '../../utils/response';
 import { HTTP_STATUS } from '../../../../shared/src/constants';
 import AuditLog from '../../models/AuditLog';
 
-export const getSkills = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const getSkills = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { category, visibility } = req.query;
     
@@ -30,7 +29,7 @@ export const getSkills = async (req: AuthRequest, res: Response, next: NextFunct
   }
 };
 
-export const createSkill = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const createSkill = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const skillData = {
       ...req.body,
@@ -54,7 +53,7 @@ export const createSkill = async (req: AuthRequest, res: Response, next: NextFun
   }
 };
 
-export const updateSkill = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const updateSkill = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     
@@ -82,7 +81,7 @@ export const updateSkill = async (req: AuthRequest, res: Response, next: NextFun
   }
 };
 
-export const deleteSkill = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const deleteSkill = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     

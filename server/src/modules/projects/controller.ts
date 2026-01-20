@@ -1,12 +1,12 @@
-import { Response, NextFunction } from 'express';
-import { AuthRequest } from '../../middlewares/auth';
+import { Request, Response, NextFunction } from 'express';
 import Project from '../../models/Project';
 import { sendSuccess, sendError, ApiError } from '../../utils/response';
 import { HTTP_STATUS } from '../../../../shared/src/constants';
 import { ContentStatus } from '../../../../shared/src/types';
 import AuditLog from '../../models/AuditLog';
+import { generateSlug, generateUniqueSlug } from '../../utils/slug';
 
-export const getProjects = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const getProjects = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const {
       page = 1,
@@ -59,7 +59,7 @@ export const getProjects = async (req: AuthRequest, res: Response, next: NextFun
   }
 };
 
-export const getProjectBySlug = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const getProjectBySlug = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { slug } = req.params;
     
@@ -90,10 +90,21 @@ export const getProjectBySlug = async (req: AuthRequest, res: Response, next: Ne
   }
 };
 
-export const createProject = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const createProject = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    // Generate slug from title if not provided
+    let slug = req.body.slug;
+    if (!slug && req.body.title) {
+      const baseSlug = generateSlug(req.body.title);
+      slug = await generateUniqueSlug(
+        baseSlug,
+        async (s) => !!(await Project.findOne({ slug: s }))
+      );
+    }
+    
     const projectData = {
       ...req.body,
+      slug,
       createdBy: req.user!.id,
     };
     
@@ -115,7 +126,7 @@ export const createProject = async (req: AuthRequest, res: Response, next: NextF
   }
 };
 
-export const updateProject = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const updateProject = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     
@@ -126,6 +137,18 @@ export const updateProject = async (req: AuthRequest, res: Response, next: NextF
     }
     
     const oldData = project.toObject();
+    
+    // Generate new slug if title is being changed and no explicit slug provided
+    if (req.body.title && req.body.title !== project.title && !req.body.slug) {
+      const baseSlug = generateSlug(req.body.title);
+      req.body.slug = await generateUniqueSlug(
+        baseSlug,
+        async (s) => {
+          const existing = await Project.findOne({ slug: s });
+          return !!(existing && existing._id.toString() !== id);
+        }
+      );
+    }
     
     Object.assign(project, req.body);
     await project.save();
@@ -147,7 +170,7 @@ export const updateProject = async (req: AuthRequest, res: Response, next: NextF
   }
 };
 
-export const deleteProject = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const deleteProject = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     

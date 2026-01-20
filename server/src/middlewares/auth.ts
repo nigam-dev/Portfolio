@@ -61,3 +61,36 @@ export const requireAdmin = (
   }
   next();
 };
+
+export const optionalAuth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const token = req.cookies.portfolio_token || req.headers.authorization?.split(' ')[1];
+    
+    if (token) {
+      const decoded = jwt.verify(token, config.jwt.secret) as {
+        id: string;
+        email: string;
+        role: UserRole;
+      };
+      
+      const user = await User.findById(decoded.id).select('_id email role isActive');
+      
+      if (user && user.isActive) {
+        req.user = {
+          id: user._id.toString(),
+          email: user.email,
+          role: user.role,
+        };
+      }
+    }
+    
+    next();
+  } catch (error) {
+    // If token is invalid, just continue without user
+    next();
+  }
+};

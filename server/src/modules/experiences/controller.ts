@@ -1,11 +1,10 @@
-import { Response, NextFunction } from 'express';
-import { AuthRequest } from '../../middlewares/auth';
+import { Request, Response, NextFunction } from 'express';
 import Experience from '../../models/Experience';
 import { sendSuccess, ApiError } from '../../utils/response';
 import { HTTP_STATUS } from '../../../../shared/src/constants';
 import AuditLog from '../../models/AuditLog';
 
-export const getExperiences = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const getExperiences = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { visibility } = req.query;
     
@@ -27,7 +26,7 @@ export const getExperiences = async (req: AuthRequest, res: Response, next: Next
   }
 };
 
-export const createExperience = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const createExperience = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const experience = await Experience.create({
       ...req.body,
@@ -49,7 +48,7 @@ export const createExperience = async (req: AuthRequest, res: Response, next: Ne
   }
 };
 
-export const updateExperience = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const updateExperience = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     
@@ -77,7 +76,7 @@ export const updateExperience = async (req: AuthRequest, res: Response, next: Ne
   }
 };
 
-export const deleteExperience = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const deleteExperience = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
     

@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { authenticate, requireAdmin } from '../../middlewares/auth';
+import { authenticate, requireAdmin, optionalAuth } from '../../middlewares/auth';
 import * as projectController from './controller';
 
 const router = Router();
 
-// Public routes
-router.get('/', projectController.getProjects);
-router.get('/:slug', projectController.getProjectBySlug);
+// Public routes (with optional auth to detect admin)
+router.get('/', optionalAuth, projectController.getProjects);
+router.get('/:slug', optionalAuth, projectController.getProjectBySlug);
 
 // Admin routes
 router.post('/', authenticate, requireAdmin, projectController.createProject);
