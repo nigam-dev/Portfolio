@@ -9,7 +9,7 @@ interface ExperienceFormData {
   position: string;
   location: string;
   startDate: string;
-  endDate: string;
+  endDate?: string;
   current: boolean;
   description: string;
   responsibilities: string[];

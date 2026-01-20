@@ -14,7 +14,7 @@ import Login from './pages/Login';
 
 function App() {
   const location = useLocation();
-  const { data: user, isLoading, error } = useQuery({
+  const { data: user, isLoading } = useQuery({
     queryKey: ['auth-user'],
     queryFn: async () => {
       const response = await api.get('/auth/me');
