@@ -1,13 +1,10 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import jwt, { SignOptions } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import passport from '../../config/passport';
 import { config } from '../../config';
 import { sendSuccess, sendError } from '../../utils/response';
-import { HTTP_STATUS } from '../../../../shared/src/constants';
-import { JWT_COOKIE_NAME } from '../../../../shared/src/constants';
-import { authenticate, AuthRequest } from '../../middlewares/auth';
-import { ADMIN_EMAIL } from '../../../../shared/src/constants';
-import { UserRole } from '../../../../shared/src/types';
+import { HTTP_STATUS, JWT_COOKIE_NAME, ADMIN_EMAIL } from '@shared/constants';
+import { UserRole } from '@shared/types';
 import AuditLog from '../../models/AuditLog';
 import User from '../../models/User';
 
