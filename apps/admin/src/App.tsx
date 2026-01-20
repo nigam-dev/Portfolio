@@ -6,7 +6,10 @@ import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import Skills from './pages/Skills';
 import Experiences from './pages/Experiences';
+import Education from './pages/Education';
+import Certifications from './pages/Certifications';
 import Profile from './pages/Profile';
+import AuditLogs from './pages/AuditLogs';
 import Login from './pages/Login';
 
 function App() {
@@ -51,7 +54,10 @@ function App() {
               <Route path="/projects" element={<Projects />} />
               <Route path="/skills" element={<Skills />} />
               <Route path="/experiences" element={<Experiences />} />
+              <Route path="/education" element={<Education />} />
+              <Route path="/certifications" element={<Certifications />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/audit-logs" element={<AuditLogs />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Layout>

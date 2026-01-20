@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Briefcase, Code, Award, User, LogOut } from 'lucide-react';
+import { Home, Briefcase, Code, Award, GraduationCap, Medal, User, FileText, LogOut } from 'lucide-react';
 import { api } from '../lib/api';
 import toast from 'react-hot-toast';
 
@@ -9,7 +9,11 @@ const navigation = [
   { name: 'Projects', href: '/projects', icon: Briefcase },
   { name: 'Skills', href: '/skills', icon: Code },
   { name: 'Experience', href: '/experiences', icon: Award },
+  { name: 'Education', href: '/education', icon: GraduationCap },
+  { name: 'Certifications', href: '/certifications', icon: Medal },
   { name: 'Profile', href: '/profile', icon: User },
+  { name: 'divider' },
+  { name: 'Audit Logs', href: '/audit-logs', icon: FileText },
 ];
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -35,14 +39,18 @@ export default function Layout({ children }: { children: ReactNode }) {
         </div>
         
         <nav className="mt-6">
-          {navigation.map((item) => {
-            const Icon = item.icon;
+          {navigation.map((item, index) => {
+            if (item.name === 'divider') {
+              return <div key={`divider-${index}`} className="my-4 border-t border-gray-700" />;
+            }
+            
+            const Icon = item.icon!;
             const isActive = location.pathname === item.href;
             
             return (
               <Link
                 key={item.name}
-                to={item.href}
+                to={item.href!}
                 className={`flex items-center gap-3 px-6 py-3 transition ${
                   isActive
                     ? 'bg-gray-900 text-white'

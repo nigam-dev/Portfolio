@@ -14,6 +14,9 @@ import projectRoutes from './modules/projects/routes';
 import skillRoutes from './modules/skills/routes';
 import experienceRoutes from './modules/experiences/routes';
 import profileRoutes from './modules/profile/routes';
+import educationRoutes from './modules/education/routes';
+import certificationRoutes from './modules/certifications/routes';
+import auditRoutes from './modules/audit/routes';
 
 const app: Application = express();
 
@@ -62,6 +65,9 @@ app.use(`/api/${apiVersion}/projects`, projectRoutes);
 app.use(`/api/${apiVersion}/skills`, skillRoutes);
 app.use(`/api/${apiVersion}/experiences`, experienceRoutes);
 app.use(`/api/${apiVersion}/profile`, profileRoutes);
+app.use(`/api/${apiVersion}/education`, educationRoutes);
+app.use(`/api/${apiVersion}/certifications`, certificationRoutes);
+app.use(`/api/${apiVersion}/audit`, auditRoutes);
 
 // 404 handler
 app.use(notFoundHandler);

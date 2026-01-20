@@ -6,6 +6,7 @@ import { HTTP_STATUS, ERROR_MESSAGES } from '../../../shared/src/constants';
 import { UserRole } from '../../../shared/src/types';
 import User from '../models/User';
 
+// Keep AuthRequest export for backward compatibility
 export interface AuthRequest extends Request {
   user?: {
     id: string;
@@ -15,7 +16,7 @@ export interface AuthRequest extends Request {
 }
 
 export const authenticate = async (
-  req: AuthRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -51,7 +52,7 @@ export const authenticate = async (
 };
 
 export const requireAdmin = (
-  req: AuthRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): void => {
