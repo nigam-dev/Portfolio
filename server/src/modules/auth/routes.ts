@@ -18,7 +18,7 @@ const generateToken = (userId: string, email: string, role: string): string => {
   return jwt.sign(
     { id: userId, email, role },
     config.jwt.secret,
-    { expiresIn: config.jwt.expiresIn }
+    { expiresIn: config.jwt.expiresIn as string | number }
   );
 };
 
