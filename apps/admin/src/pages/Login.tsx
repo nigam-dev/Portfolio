@@ -13,13 +13,20 @@ export default function Login() {
       return response.data;
     },
     onSuccess: (data) => {
+      console.log('Login response:', data);
       // Store token in localStorage
-      if (data.data?.token) {
-        localStorage.setItem('admin_token', data.data.token);
+      const token = data.data?.token || data.token;
+      console.log('Extracted token:', token);
+      if (token) {
+        localStorage.setItem('admin_token', token);
+        console.log('Token stored in localStorage');
+      } else {
+        console.error('No token found in response');
       }
       window.location.href = '/';
     },
     onError: (error: any) => {
+      console.error('Login error:', error);
       setError(error.response?.data?.message || 'Login failed. Please try again.');
     },
   });
