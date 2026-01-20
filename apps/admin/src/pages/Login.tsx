@@ -20,13 +20,19 @@ export default function Login() {
       if (token) {
         localStorage.setItem('admin_token', token);
         console.log('Token stored in localStorage');
+        console.log('LocalStorage check:', localStorage.getItem('admin_token'));
+        // Redirect after 2 seconds to see logs
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
       } else {
         console.error('No token found in response');
+        console.error('Full response structure:', JSON.stringify(data, null, 2));
       }
-      window.location.href = '/';
     },
     onError: (error: any) => {
       console.error('Login error:', error);
+      console.error('Error response:', error.response);
       setError(error.response?.data?.message || 'Login failed. Please try again.');
     },
   });
