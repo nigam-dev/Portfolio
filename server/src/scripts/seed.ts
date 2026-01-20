@@ -5,7 +5,7 @@ import Profile from '../models/Profile';
 import Project from '../models/Project';
 import Skill from '../models/Skill';
 import Experience from '../models/Experience';
-import { UserRole, SkillCategory, SkillProficiency, ProjectCategory, ContentStatus } from '@shared/types';
+import { UserRole, SkillCategory, SkillProficiency, ProjectCategory, ContentStatus } from '../../../shared/dist/types';
 
 dotenv.config();
 
