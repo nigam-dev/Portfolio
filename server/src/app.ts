@@ -53,13 +53,14 @@ app.use((req, res, next) => {
   next();
 });
 
+// API Routes
+const apiVersion = config.apiVersion;
+
 // Health check
-app.get('/health', (req, res) => {
+app.get(`/api/${apiVersion}/health`, (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// API Routes
-const apiVersion = config.apiVersion;
 app.use(`/api/${apiVersion}/auth`, authRoutes);
 app.use(`/api/${apiVersion}/projects`, projectRoutes);
 app.use(`/api/${apiVersion}/skills`, skillRoutes);
