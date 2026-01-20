@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import passport from '../../config/passport';
 import { config } from '../../config';
 import { sendSuccess, sendError } from '../../utils/response';
@@ -15,10 +15,13 @@ const router = Router();
 
 // Generate JWT token
 const generateToken = (userId: string, email: string, role: string): string => {
+  const options: SignOptions = {
+    expiresIn: config.jwt.expiresIn
+  };
   return jwt.sign(
     { id: userId, email, role },
     config.jwt.secret,
-    { expiresIn: config.jwt.expiresIn as string | number }
+    options
   );
 };
 
