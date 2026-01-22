@@ -33,12 +33,12 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-gray-800 text-white">
+      <aside className="w-64 bg-gray-800 text-white fixed left-0 top-0 h-screen overflow-y-auto flex flex-col">
         <div className="p-6">
           <h1 className="text-2xl font-bold">Portfolio Admin</h1>
         </div>
         
-        <nav className="mt-6">
+        <nav className="mt-6 flex-1">
           {navigation.map((item, index) => {
             if (item.name === 'divider') {
               return <div key={`divider-${index}`} className="my-4 border-t border-gray-700" />;
@@ -66,7 +66,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 px-6 py-3 w-full text-gray-300 hover:bg-gray-700 mt-auto absolute bottom-6"
+          className="flex items-center gap-3 px-6 py-3 w-full text-gray-300 hover:bg-gray-700 border-t border-gray-700"
         >
           <LogOut size={20} />
           Logout
@@ -74,7 +74,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 overflow-auto">
+      <main className="flex-1 ml-64 p-8 overflow-auto">
         {children}
       </main>
     </div>
