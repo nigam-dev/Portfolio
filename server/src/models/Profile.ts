@@ -63,6 +63,4 @@ const profileSchema = new Schema<IProfileDocument>(
   }
 );
 
-profileSchema.index({ userId: 1 });
-
 export default mongoose.model<IProfileDocument>('Profile', profileSchema);

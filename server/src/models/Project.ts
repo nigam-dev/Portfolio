@@ -75,7 +75,6 @@ const projectSchema = new Schema<IProjectDocument>(
   }
 );
 
-projectSchema.index({ slug: 1 });
 projectSchema.index({ category: 1 });
 projectSchema.index({ status: 1 });
 projectSchema.index({ featured: 1 });
